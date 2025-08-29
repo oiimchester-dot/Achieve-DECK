@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achieve DESK</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #2e2e2e;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(90deg, #f9d423, #ff4e50);
+      padding: 20px;
+      text-align: center;
+      color: #2e2e2e;
+    }
+    header h1 { margin: 0; font-weight: 600; }
+    header p { margin: 5px 0 0; font-size: 14px; opacity: 0.9; }
+    main { padding: 30px; max-width: 1000px; margin: auto; }
+    .category {
+      background: #3a3a3a;
+      margin-bottom: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    h2 {
+      color: #f9d423;
+      border-bottom: 2px solid #ff4e50;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+    ul { list-style: none; padding: 0; }
+    li {
+      background: white;
+      margin-bottom: 10px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      color: #1e3a8a;
+    }
+    li:hover { transform: scale(1.02); background: #f0f9ff; }
+    a { text-decoration: none; color: #1e3a8a; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Achieve DESK</h1>
+    <p>by H. Abdul Rohiim S, S.P</p>
+  </header>
+
+  <main>
+    <div class="category">
+      <h2>📘 Data Learning</h2>
+      <ul id="data-learning"></ul>
+    </div>
+    <div class="category">
+      <h2>🌐 Language</h2>
+      <ul id="language"></ul>
+    </div>
+    <div class="category">
+      <h2>🎓 Training</h2>
+      <ul id="training"></ul>
+    </div>
+    <div class="category">
+      <h2>🎤 Webinar</h2>
+      <ul id="webinar"></ul>
+    </div>
+    <div class="category">
+      <h2>🛠 Workshop</h2>
+      <ul id="working"></ul>
+    </div>
+  </main>
+
+  <script>
+    // Daftar PDF manual (sesuaikan nama file & folder)
+    const certificates = {
+      "data-learning": [
+        "certificates/data-learning/Excel_Basic_by_Seratus_Ilmu.pdf",
+        "certificates/data-learning/Excel_with_Power_Pivot_by_Narasio_Datafest.pdf"
+      ],
+      "language": [
+        "certificates/language/English_TEAP_by_UNS.pdf",
+        "certificates/language/English_TOEFL_by_INEO.pdf",
+        "certificates/language/English_TOEFL_by_English_Power.pdf",
+        "certificates/language/English_Conversation_by_SMA_100_Jakarta.pdf"
+      ],
+      "training": [
+        "certificates/training/K3_Umum_by_Porkesra.pdf",
+        "certificates/training/K3_First_AID_by_Porkesra.pdf",
+        "certificates/training/K3_Operasi_Warehouse_by_BKTI.pdf",
+        "certificates/training/K3_Dasar-Dasar_Manajemen_Resiko_by_BKTI.pdf",
+        "certificates/training/Otomotif_Roda_Dua_by_PPKD.pdf",
+        "certificates/training/Leadership_Training_by_IATSS.pdf",
+        "certificates/training/JCI_Talkshow_Public_Speaking.pdf",
+        "certificates/training/Project_Menulis_by_Halo_Penulis.pdf",
+        "certificates/training/Project_Menulis_by_Jago_Menulis.pdf",
+        "certificates/training/Canva_50_Design_Milestone_Badge.pdf"
+      ],
+      "webinar": [
+        "certificates/webinar/Anti_Korupsi_by_KPK.pdf",
+        "certificates/webinar/Career_Compas_by_Atma.pdf",
+        "certificates/webinar/Career_Preparation_by_LPK_KEN.pdf",
+        "certificates/webinar/Business_for_GenZ_By_Atma.pdf",
+        "certificates/webinar/High_Paying_Retail_by_Atma.pdf",
+        "certificates/webinar/Social_Media_Analytics_by_BINUS.pdf",
+        "certificates/webinar/Excel_for_Business_Data_by_Edspert.id.pdf",
+        "certificates/webinar/English_Basic_for_Customer_by_Pintarnya.pdf",
+        "certificates/webinar/K3_Kebersihan_Tangan_Dunia_by_Cendrawasih.pdf"
+      ],
+      "working": [
+        "certificates/workshop/JCI_Talkshow_ICB.pdf",
+        "certificates/workshop/Masterclass_Canva_by_SGB.pdf",
+        "certificates/workshop/Capcut_Pro_Class_by_Atma.pdf",
+        "certificates/workshop/Siap_Digital_by_Gapura_Digital.pdf",
+        "certificates/workshop/Handal_Digital_by_Gapura_Digital.pdf",
+        "certificates/workshop/Profesional_Digital_by_Gapura_Digital.pdf",
+        "certificates/workshop/Photography_Exposure_by_Mezink.pdf",
+        "certificates/workshop/Photography_Smartphone_by_Mezink.pdf",
+        "certificates/workshop/Photography_Editing_Essentials_by_Mezink.pdf",
+        "certificates/workshop/Excel_with_Power_Pivot_by_Narasio_Datafest.pdf"
+      ]
+    };
+
+    // Fungsi rapikan nama file
+    function formatName(filePath) {
+      const fileName = filePath.split('/').pop();
+      return fileName.replace(/\.pdf$/i, "")
+                     .replace(/[_-]/g, " ")
+                     .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    // Generate list otomatis
+    Object.keys(certificates).forEach(category => {
+      const listElement = document.getElementById(category);
+      certificates[category].forEach(file => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = file;
+        a.target = "_blank";
+        a.textContent = formatName(file);
+        li.appendChild(a);
+        listElement.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
